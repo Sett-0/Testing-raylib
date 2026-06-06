@@ -1,5 +1,5 @@
-workplaceName = "Testing raylib"
-projectName   = "raylib-start"
+workplaceName = "Testing-raylib"
+projectName   = "I-am-ballin-it"
 
 workspace (workplaceName)
 	configurations { "Debug", "Release" }
@@ -19,6 +19,9 @@ project (projectName)
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
+	
+	staticruntime "On"
+	linkoptions { "-static" }
 	
 	files { "../simple_balls.cpp" }
 	includedirs { "../include" }
