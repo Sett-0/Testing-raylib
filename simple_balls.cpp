@@ -1,13 +1,13 @@
+#include <ctime>
 #include "raylib.h"
 #include "raymath.h"
-#include <iostream>
 
 
 #define GRAVITY 1
 #define DRAG 0.9f
 #define WIDTH  600
 #define HEIGHT 800
-#define N 4
+#define N 10
 
 struct BallData {
 	float R;
@@ -44,27 +44,29 @@ struct Ball {
 	}
 };
 
-void initBalls(Ball &balls, Color &colors) {
-	
-}
-
 int main() {
 	InitWindow(WIDTH, HEIGHT, "raylib Balling");
 	SetTargetFPS(60);
-	
+	SetRandomSeed(std::time(0));
 	Ball balls[N]; 
 	Color colors[N];
 	for (size_t i = 0; i < N; i++) {
-		float R = 10 * (i+1) << 1;
-		Vector2 coord = { WIDTH / N * i + R, R };
-		Vector2 speed = { 1.0f, 1.0f };
-		unsigned char cChannel = 255 / N * i;
-		colors[i] = Color { cChannel, cChannel, cChannel, 255 };
+		float R  = GetRandomValue(10, 100);
+		float x  = GetRandomValue(R, WIDTH - R);
+		float y  = GetRandomValue(0, HEIGHT/2);
+		float dx = GetRandomValue(0, 20);
+		float dy = GetRandomValue(-200, 200) / 200.0f;
+		unsigned char r = GetRandomValue(0, 255);
+		unsigned char g = GetRandomValue(0, 255);
+		unsigned char b = GetRandomValue(0, 255);
+		Vector2 coord = { x,  y };
+		Vector2 speed = { dx, dy };
+		colors[i] = Color { r, g, b, 255 };
 		balls[i]  = Ball(R, coord, speed, colors[i]);
 	}
 
-	BeginDrawing();
 	while (!WindowShouldClose()) {
+		BeginDrawing();
 		ClearBackground(RAYWHITE);
 		for (Ball &ball : balls) {
 			if (IsKeyPressed(KEY_R)) {
